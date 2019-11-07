@@ -114,6 +114,7 @@ function showDialog() {
       resize( 250, 19 );
       text = "J:/itelescope/ck18w020/20191031";
       onEditCompleted = function(text) {
+         Console.writeln("dir edited");
          this.dir = text;
       }
    }
@@ -163,6 +164,7 @@ function showDialog() {
       resize( 250, 19 );
       text = "J:/main/detected-columns_5-sigma.txt";
       onEditCompleted = function(text) {
+         Console.writeln("partial defects file path edited");
          this.partialDefectsFilePath = text;
       }
    }
@@ -184,6 +186,7 @@ function showDialog() {
       resize( 50, 19 );
       text = "xisf";
       onEditCompleted = function(text) {
+         Console.writeln("target image extension edited");
          this.targetImageExtension = text;
       }
    }
@@ -205,6 +208,7 @@ function showDialog() {
       resize( 50, 19 );
       text = "_lps";
       onEditCompleted = function(text) {
+         Console.writeln("postfix edited");
          this.postfix = text;
       }
    }
@@ -218,13 +222,15 @@ function showDialog() {
       position = new Point(x, y);
       textAlignment = TextAlign_Left;
    }
-   var tbLayersToRemove = new NumericEdit(this);
+   var tbLayersToRemove = new NumericControl(this);
    with (tbLayersToRemove)
    {
+      integer = true;
       position = new Point(lblLayersToRemove.frameRect.right + 8, y);
       resize( 50, 19 );
       value = 9;
       onEditCompleted = function(value) {
+         Console.writeln("layers to remove edited");
          this.layersToRemove = value;
       }
    }
@@ -239,13 +245,15 @@ function showDialog() {
       position = new Point(x, y);
       textAlignment = TextAlign_Left;
    }
-   var tbRejectionLimit = new NumericEdit(this);
+   var tbRejectionLimit = new NumericControl(this);
    with (tbRejectionLimit)
    {
+      integer = true;
       position = new Point(lblRejectionLimit.frameRect.right + 8, y);
       resize( 50, 19 );
       value = 3;
       onEditCompleted = function(value) {
+         Console.writeln("rejection limit edited");
          this.rejectionLimit = value;
       }
    }
@@ -292,6 +300,10 @@ function showDialog() {
       position = new Point(lblGlobalRejectionLimit.frameRect.right + 8, y);
       resize( 50, 19 );
       text = "7";
+      onEditCompleted = function(value) {
+         Console.writeln("global rejection limit edited");
+         this.globalRejectionLimit = value;
+      }
    }
 
 //   this.backgroundReferenceLeft=1024;
@@ -319,6 +331,10 @@ function showDialog() {
       position = new Point(lblBackgroundReferenceLeft.frameRect.right + 8, y);
       resize( 50, 19 );
       text = "1024";
+      onEditCompleted = function(value) {
+         Console.writeln("background reference left edited");
+         this.backgroundReferenceLeft = value;
+      }
    }
 
 //   this.backgroundReferenceTop=1024;
@@ -337,6 +353,10 @@ function showDialog() {
       position = new Point(lblBackgroundReferenceTop.frameRect.right + 8, y);
       resize( 50, 19 );
       text = "1024"
+      onEditCompleted = function(value) {
+         Console.writeln("background reference top edited");
+         this.backgroundReferenceTop = value;
+      }
    }
 
 //   this.backgroundReferenceWidth=400;
@@ -355,6 +375,10 @@ function showDialog() {
       position = new Point(lblBackgroundReferenceWidth.frameRect.right + 8, y);
       resize( 50, 19 );
       text = "400";
+      onEditCompleted = function(value) {
+         Console.writeln("background reference width edited");
+         this.backgroundReferenceWidth = value;
+      }
    }
 
 //   this.backgroundReferenceHeight=400;
@@ -373,6 +397,10 @@ function showDialog() {
       position = new Point(lblBackgroundReferenceHeight.frameRect.right + 8, y);
       resize( 50, 19 );
       text = "400";
+      onEditCompleted = function(value) {
+         Console.writeln("background reference height edited");
+         this.backgroundReferenceHeight = value;
+      }
    }
 
    var btnExecute = new PushButton(this);
