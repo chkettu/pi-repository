@@ -79,6 +79,7 @@ function showDialog() {
       checked = false;
       onCheck = function(checked) {
          Console.writeln("cbTargetIsActiveImage pressed");
+         this.targetIsActiveImage = checked;
       }
    }
 
@@ -92,37 +93,42 @@ function showDialog() {
       checked = true;
       onCheck = function(checked) {
          Console.writeln("cbCloseFormerWorkingImages pressed");
+         this.closeFormerWorkingImages = checked;
       }
    }
 
 //   this.dir="J:/itelescope/ck18w020/20191031";
-   var lblOutputDir = new Label(this);
-   with (lblOutputDir)
+   var lblDir = new Label(this);
+   with (lblDir)
    {
-      text = "Output directory:";
+      text = "Directory:";
       resize( tbw , height);
       y = cbCloseFormerWorkingImages.position.y + ls;
       position = new Point(x, y);
       textAlignment = TextAlign_Left;
    }
-   var tbOutputDir = new Edit(this);
-   with (tbOutputDir)
+   var tbDir = new Edit(this);
+   with (tbDir)
    {
-      position = new Point(lblOutputDir.frameRect.right + 8, y);
+      position = new Point(lblDir.frameRect.right + 8, y);
       resize( 250, 19 );
       text = "J:/itelescope/ck18w020/20191031";
+      onEditCompleted = function(text) {
+         this.dir = text;
+      }
    }
 
 //   this.correctColumns = true;
    var cbCorrectColumns = new CheckBox(this);
    with(cbCorrectColumns) {
       enabled = true;
-      y = lblOutputDir.position.y + ls;
+      y = lblDir.position.y + ls;
       position = new Point(x, y);
       text = "correct columns";
       checked = true;
       onCheck = function(checked) {
          Console.writeln("cbCorrectColumns pressed");
+         this.correctColumns = checked;
       }
    }
 
@@ -136,6 +142,7 @@ function showDialog() {
       checked = true;
       onCheck = function(checked) {
          Console.writeln("cbCorrectEntireImage pressed");
+         this.correctEntireImage = checked;
       }
    }
 
@@ -155,6 +162,9 @@ function showDialog() {
       position = new Point(lblPartialDefectsFilePath.frameRect.right + 8, y);
       resize( 250, 19 );
       text = "J:/main/detected-columns_5-sigma.txt";
+      onEditCompleted = function(text) {
+         this.partialDefectsFilePath = text;
+      }
    }
 
 //   this.targetImageExtension="xisf";
@@ -173,6 +183,9 @@ function showDialog() {
       position = new Point(lblTargetImageExtension.frameRect.right + 8, y);
       resize( 50, 19 );
       text = "xisf";
+      onEditCompleted = function(text) {
+         this.targetImageExtension = text;
+      }
    }
 
 //   this.postfix="_lps";
@@ -191,6 +204,9 @@ function showDialog() {
       position = new Point(lblPostfix.frameRect.right + 8, y);
       resize( 50, 19 );
       text = "_lps";
+      onEditCompleted = function(text) {
+         this.postfix = text;
+      }
    }
 //   this.layersToRemove = 9;
    var lblLayersToRemove = new Label(this);
@@ -202,12 +218,15 @@ function showDialog() {
       position = new Point(x, y);
       textAlignment = TextAlign_Left;
    }
-   var tbLayersToRemove = new Edit(this);
+   var tbLayersToRemove = new NumericEdit(this);
    with (tbLayersToRemove)
    {
       position = new Point(lblLayersToRemove.frameRect.right + 8, y);
       resize( 50, 19 );
-      text = "9";
+      value = 9;
+      onEditCompleted = function(value) {
+         this.layersToRemove = value;
+      }
    }
 
 //   this.rejectionLimit = 3;
@@ -220,12 +239,15 @@ function showDialog() {
       position = new Point(x, y);
       textAlignment = TextAlign_Left;
    }
-   var tbRejectionLimit = new Edit(this);
+   var tbRejectionLimit = new NumericEdit(this);
    with (tbRejectionLimit)
    {
       position = new Point(lblRejectionLimit.frameRect.right + 8, y);
       resize( 50, 19 );
-      text = "3";
+      value = 3;
+      onEditCompleted = function(value) {
+         this.rejectionLimit = value;
+      }
    }
 
 //   this.smallScaleNormalization = true;
