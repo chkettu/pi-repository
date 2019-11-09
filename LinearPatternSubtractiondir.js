@@ -629,6 +629,31 @@ function main()
    // Load the script configuration values on top.
    var CONFIG = new Config();
 
+   var dialog = new showConfigDialog(CONFIG);
+   dialog.onReturn = function(ret) {
+      Console.writeln("Config from dialog");
+      Console.writeln("==================");
+      Console.writeln("targetIsActiveImage: "+CONFIG.targetIsActiveImage);
+      Console.writeln("closeFormerWorkingImages: "+CONFIG.closeFormerWorkingImages);
+      Console.writeln("dir: "+CONFIG.dir);
+      Console.writeln("correctColumns: "+CONFIG.correctColumns);
+      Console.writeln("correctEntireImage: "+CONFIG.correctEntireImage);
+      Console.writeln("partialDefectsFilePath: "+CONFIG.partialDefectsFilePath);
+      Console.writeln("targetImageExtension: "+CONFIG.targetImageExtension);
+      Console.writeln("postfix: "+CONFIG.postfix);
+      Console.writeln("layersToRemove: "+CONFIG.layersToRemove);
+      Console.writeln("rejectionLimit: "+CONFIG.rejectionLimit);
+      Console.writeln("smallScaleNormalization: "+CONFIG.smallScaleNormalization);
+      Console.writeln("globalRejection: "+CONFIG.globalRejection);
+      Console.writeln("globalRejectionLimit: "+CONFIG.globalRejectionLimit);
+      Console.writeln("backgroundReferenceLeft: "+CONFIG.backgroundReferenceLeft);
+      Console.writeln("backgroundReferenceTop: "+CONFIG.backgroundReferenceTop);
+      Console.writeln("backgroundReferenceWidth: "+CONFIG.backgroundReferenceWidth);
+      Console.writeln("backgroundReferenceHeight: "+CONFIG.backgroundReferenceHeight);
+      Console.writeln();
+   }
+	dialog.execute();
+
    ExecutionStart( CONFIG );
 
    // Process only the active image. The processed image is not saved to disk.

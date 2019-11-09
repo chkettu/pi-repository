@@ -2,6 +2,7 @@
 
 function Config()
 {
+   //TODO default values?
    this.targetIsActiveImage = false;
    this.closeFormerWorkingImages = true;
    this.dir="J:/itelescope/ck18w020/20191031";
@@ -24,7 +25,7 @@ function Config()
 function main() {
    Console.writeln("Test!!");
    var cfg = new Config();
-   var dialog = new showDialog(cfg);
+   var dialog = new showConfigDialog(cfg);
    dialog.onReturn = function(ret) {
       Console.writeln("Config from dialog");
       Console.writeln("==================");

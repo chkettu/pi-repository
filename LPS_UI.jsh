@@ -7,11 +7,13 @@
 #include <pjsr/StdDialogCode.jsh>
 #include <pjsr/FileMode.jsh>
 
-showDialog.prototype = new Dialog;
+showConfigDialog.prototype = new Dialog;
 
-function showDialog(CONFIG) {
+function showConfigDialog(CONFIG) {
    this.__base__ = Dialog;
    this.__base__();
+   var tbw = 163;
+   var tbsw = 50;
    this.height = 600;
    this.width = 525;
    this.restyle();
@@ -38,10 +40,10 @@ function showDialog(CONFIG) {
    with(this.cbTargetIsActiveImage) {
       enabled = true;
       text = "Target is active image";
-      checked = false;
+      checked = CONFIG.targetIsActiveImage;
       onCheck = function(checked) {
-         Console.writeln("cbTargetIsActiveImage pressed");
-         this.targetIsActiveImage = checked;
+         //Console.writeln("cbTargetIsActiveImage pressed");
+         CONFIG.targetIsActiveImage = checked;
       }
    }
 
@@ -50,9 +52,9 @@ function showDialog(CONFIG) {
    with(this.cbCloseFormerWorkingImages) {
       enabled = true;
       text = "Close former working images";
-      checked = true;
+      checked = CONFIG.closeFormerWorkingImages;
       onCheck = function(checked) {
-         Console.writeln("cbCloseFormerWorkingImages pressed");
+         //Console.writeln("cbCloseFormerWorkingImages pressed");
          CONFIG.closeFormerWorkingImages = checked;
       }
    }
@@ -66,12 +68,13 @@ function showDialog(CONFIG) {
       textAlignment = TextAlign_Left;
    }
    this.tbDir = new Edit(this);
+   var vdir = this.tbDir;
    with (this.tbDir)
    {
       resize( 250, 19 );
-      text = "J:/itelescope/ck18w020/20191031";
+      text = CONFIG.dir;
       onEditCompleted = function(text) {
-         Console.writeln("dir edited");
+         //Console.writeln("dir edited");
          CONFIG.dir = text;
       }
    }
@@ -86,7 +89,7 @@ function showDialog(CONFIG) {
             return false;
          }
          CONFIG.dir = dirDialog.directory;
-         tbDir.text = dirDialog.directory;
+         vdir.text = CONFIG.dir;
       }
    }
 
@@ -95,9 +98,9 @@ function showDialog(CONFIG) {
    with(this.cbCorrectColumns) {
       enabled = true;
       text = "correct columns";
-      checked = true;
+      checked = CONFIG.correctColumns;
       onCheck = function(checked) {
-         Console.writeln("cbCorrectColumns pressed");
+         // Console.writeln("cbCorrectColumns pressed");
          CONFIG.correctColumns = checked;
       }
    }
@@ -107,9 +110,9 @@ function showDialog(CONFIG) {
    with(this.cbCorrectEntireImage) {
       enabled = true;
       text = "correct entire image";
-      checked = true;
+      checked = CONFIG.correctEntireImage;
       onCheck = function(checked) {
-         Console.writeln("cbCorrectEntireImage pressed");
+         // Console.writeln("cbCorrectEntireImage pressed");
          CONFIG.correctEntireImage = checked;
       }
    }
@@ -123,12 +126,13 @@ function showDialog(CONFIG) {
       textAlignment = TextAlign_Left;
    }
    this.tbPartialDefectsFilePath = new Edit(this);
+   var vPartialDefectsFilePath = this.tbPartialDefectsFilePath;
    with (this.tbPartialDefectsFilePath)
    {
       resize( 250, 19 );
-      text = "J:/main/detected-columns_5-sigma.txt";
+      text = CONFIG.partialDefectsFilePath;
       onEditCompleted = function(text) {
-         Console.writeln("partial defects file path edited");
+         // Console.writeln("partial defects file path edited");
          CONFIG.partialDefectsFilePath = text;
       }
    }
@@ -143,7 +147,7 @@ function showDialog(CONFIG) {
             return false;
          }
          CONFIG.partialDefectsFilePath = dirDialog.directory;
-         tbPartialDefectsFilePath.text = dirDialog.directory;
+         vPartialDefectsFilePath.text = dirDialog.directory;
       }
    }
 
@@ -159,9 +163,9 @@ function showDialog(CONFIG) {
    with (this.tbTargetImageExtension)
    {
       resize( 50, 19 );
-      text = "xisf";
-      onEditCompleted = function(text) {
-         Console.writeln("target image extension edited");
+      text = CONFIG.targetImageExtension;
+      onTextUpdated = function(text) {
+         Console.writeln("target image extension edited: " + text);
          CONFIG.targetImageExtension = text;
       }
    }
@@ -178,9 +182,9 @@ function showDialog(CONFIG) {
    {
       resize( 50, 19 );
       width = 50;
-      text = "_lps";
-      onEditCompleted = function(text) {
-         Console.writeln("postfix edited");
+      text = CONFIG.postfix;
+      onTextUpdated = function(text) {
+         // Console.writeln("postfix edited");
          CONFIG.postfix = text;
       }
    }
@@ -199,9 +203,9 @@ function showDialog(CONFIG) {
       setRange(0, 15);
       resize( 50, 19 );
       setPrecision(0);
-      setValue(9);
+      setValue(CONFIG.layersToRemove);
       onValueUpdated = function(value) {
-         Console.writeln("layers to remove edited");
+         // Console.writeln("layers to remove edited");
          CONFIG.layersToRemove = value;
       }
    }
@@ -220,9 +224,9 @@ function showDialog(CONFIG) {
       resize( 50, 19 );
       setRange(0, 15);
       setPrecision(0);
-      setValue(3);
+      setValue(CONFIG.rejectionLimit);
       onValueUpdated = function(value) {
-         Console.writeln("rejection limit edited");
+         // Console.writeln("rejection limit edited");
          CONFIG.rejectionLimit = value;
       }
    }
@@ -232,9 +236,9 @@ function showDialog(CONFIG) {
    with(this.cbSmallScaleNormalization) {
       enabled = true;
       text = "Small scale normalization";
-      checked = true;
+      checked = CONFIG.smallScaleNormalization;
       onCheck = function(checked) {
-         Console.writeln("cbSmallScaleNormalization pressed");
+         // Console.writeln("cbSmallScaleNormalization pressed");
          CONFIG.smallScaleNormalization = checked;
       }
    }
@@ -244,9 +248,9 @@ function showDialog(CONFIG) {
    with(this.cbGlobalRejection) {
       enabled = true;
       text = "Global rejection";
-      checked = true;
+      checked = CONFIG.globalRejection;
       onCheck = function(checked) {
-         Console.writeln("cbGlobalRejection pressed");
+         // Console.writeln("cbGlobalRejection pressed");
          CONFIG.globalRejection = checked;
       }
    }
@@ -265,9 +269,9 @@ function showDialog(CONFIG) {
       resize( 50, 19 );
       setRange(0, 15);
       setPrecision(0);
-      setValue(7);
+      setValue(CONFIG.globalRejectionLimit);
       onValueUpdated = function(value) {
-         Console.writeln("global rejection limit edited");
+         // Console.writeln("global rejection limit edited");
          CONFIG.globalRejectionLimit = value;
       }
    }
@@ -294,9 +298,9 @@ function showDialog(CONFIG) {
       resize( 50, 19 );
       setRange(0, 4096);
       setPrecision(0);
-      setValue(1024);
+      setValue(CONFIG.backgroundReferenceLeft);
       onValueUpdated = function(value) {
-         Console.writeln("background reference left edited");
+         // Console.writeln("background reference left edited");
          CONFIG.backgroundReferenceLeft = value;
       }
    }
@@ -315,9 +319,9 @@ function showDialog(CONFIG) {
       resize( 50, 19 );
       setRange(0, 4096);
       setPrecision(0);
-      setValue(1024);
+      setValue(CONFIG.backgroundReferenceTop);
       onValueUpdated = function(value) {
-         Console.writeln("background reference top edited");
+         // Console.writeln("background reference top edited");
          CONFIG.backgroundReferenceTop = value;
       }
    }
@@ -336,9 +340,9 @@ function showDialog(CONFIG) {
       resize( 50, 19 );
       setRange(0, 4096);
       setPrecision(0);
-      setValue(400);
+      setValue(CONFIG.backgroundReferenceWidth);
       onValueUpdated = function(value) {
-         Console.writeln("background reference width edited");
+         // Console.writeln("background reference width edited");
          CONFIG.backgroundReferenceWidth = value;
       }
    }
@@ -357,9 +361,9 @@ function showDialog(CONFIG) {
       resize( 50, 19 );
       setRange(0, 4096);
       setPrecision(0);
-      setValue(400);
+      setValue(CONFIG.backgroundReferenceHeight);
       onValueUpdated = function(value) {
-         Console.writeln("background reference height edited");
+         // Console.writeln("background reference height edited");
          CONFIG.backgroundReferenceHeight = value;
       }
    }
@@ -367,6 +371,9 @@ function showDialog(CONFIG) {
    this.btnExecute = new PushButton(this);
    with(this.btnExecute) {
       text = "Execute";
+      onClick = function(clicked) {
+         dialog.done(0);
+      }
    }
 
    // *** SIZERS ***
@@ -511,12 +518,3 @@ function showDialog(CONFIG) {
    this.allFrame = new Frame(this);
    this.allFrame.sizer = this.layoutFrame;
 }
-
-function main() {
-   Console.writeln("Test!!");
-
-   var dialog = new showDialog();
-	dialog.execute();
-}
-
-main();
