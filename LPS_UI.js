@@ -48,16 +48,16 @@ function showDialog() {
    Console.writeln("showDialog");
    this.__base__ = Dialog;
    this.__base__();
+   this.height = 600;
+   this.width = 525;
    this.restyle();
    this.labelWidth = this.font.width("Maximum magnitude:M");
    this.userResizable = false;
    var dialog 			= this;
 
-   var lblIntro = new Label(this);
-   with(lblIntro) {
+   this.lblIntro = new Label(this);
+   with(this.lblIntro) {
       frameStyle = FrameStyle_Box;
-      position = new Point(x, y);
-      margin = 6;
       minWidth = 47 * font.width('M');
       wordWrapping = true;
       useRichText = true;
@@ -70,11 +70,9 @@ function showDialog() {
    }
 
 //   this.targetIsActiveImage = false;
-   var cbTargetIsActiveImage = new CheckBox(this);
-   with(cbTargetIsActiveImage) {
+   this.cbTargetIsActiveImage = new CheckBox(this);
+   with(this.cbTargetIsActiveImage) {
       enabled = true;
-      y = lblIntro.frameRect.bottom + ls + 25;
-      position = new Point(x, y);
       text = "Target is active image";
       checked = false;
       onCheck = function(checked) {
@@ -84,11 +82,9 @@ function showDialog() {
    }
 
 //   this.closeFormerWorkingImages = true;
-   var cbCloseFormerWorkingImages = new CheckBox(this);
-   with(cbCloseFormerWorkingImages) {
+   this.cbCloseFormerWorkingImages = new CheckBox(this);
+   with(this.cbCloseFormerWorkingImages) {
       enabled = true;
-      y = cbTargetIsActiveImage.position.y + ls;
-      position = new Point(x, y);
       text = "Close former working images";
       checked = true;
       onCheck = function(checked) {
@@ -98,19 +94,16 @@ function showDialog() {
    }
 
 //   this.dir="J:/itelescope/ck18w020/20191031";
-   var lblDir = new Label(this);
-   with (lblDir)
+   this.lblDir = new Label(this);
+   with (this.lblDir)
    {
       text = "Directory:";
       resize( tbw , height);
-      y = cbCloseFormerWorkingImages.position.y + ls;
-      position = new Point(x, y);
       textAlignment = TextAlign_Left;
    }
-   var tbDir = new Edit(this);
-   with (tbDir)
+   this.tbDir = new Edit(this);
+   with (this.tbDir)
    {
-      position = new Point(lblDir.frameRect.right + 8, y);
       resize( 250, 19 );
       text = "J:/itelescope/ck18w020/20191031";
       onEditCompleted = function(text) {
@@ -119,12 +112,23 @@ function showDialog() {
       }
    }
 
+   this.btDir = new PushButton(this);
+   with(this.btDir) {
+      text = "...";
+      onClick = function() {
+         var dirDialog = new GetDirectoryDialog();
+         dirDialog.caption = "Choose path ...";
+         if (!dirDialog.execute()) {
+            return false;
+         }
+         tbDir.text = dirDialog.directory;
+      }
+   }
+
 //   this.correctColumns = true;
-   var cbCorrectColumns = new CheckBox(this);
-   with(cbCorrectColumns) {
+   this.cbCorrectColumns = new CheckBox(this);
+   with(this.cbCorrectColumns) {
       enabled = true;
-      y = lblDir.position.y + ls;
-      position = new Point(x, y);
       text = "correct columns";
       checked = true;
       onCheck = function(checked) {
@@ -134,11 +138,9 @@ function showDialog() {
    }
 
 //   this.correctEntireImage = true;
-   var cbCorrectEntireImage = new CheckBox(this);
-   with(cbCorrectEntireImage) {
+   this.cbCorrectEntireImage = new CheckBox(this);
+   with(this.cbCorrectEntireImage) {
       enabled = true;
-      y = cbCorrectColumns.position.y + ls;
-      position = new Point(x, y);
       text = "correct entire image";
       checked = true;
       onCheck = function(checked) {
@@ -148,19 +150,16 @@ function showDialog() {
    }
 
 //   this.partialDefectsFilePath = "J:/main/detected-columns_5-sigma.txt";
-   var lblPartialDefectsFilePath = new Label(this);
-   with (lblPartialDefectsFilePath)
+   this.lblPartialDefectsFilePath = new Label(this);
+   with (this.lblPartialDefectsFilePath)
    {
       text = "Partial defects file path:";
       resize( tbw , height);
-      y = cbCorrectEntireImage.position.y + ls;
-      position = new Point(x, y);
       textAlignment = TextAlign_Left;
    }
-   var tbPartialDefectsFilePath = new Edit(this);
-   with (tbPartialDefectsFilePath)
+   this.tbPartialDefectsFilePath = new Edit(this);
+   with (this.tbPartialDefectsFilePath)
    {
-      position = new Point(lblPartialDefectsFilePath.frameRect.right + 8, y);
       resize( 250, 19 );
       text = "J:/main/detected-columns_5-sigma.txt";
       onEditCompleted = function(text) {
@@ -168,21 +167,31 @@ function showDialog() {
          this.partialDefectsFilePath = text;
       }
    }
+   this.btPartialDefectsFilePath = new PushButton(this);
+   with(this.btPartialDefectsFilePath) {
+      text = "...";
+      maxWidth = 30;
+      onClick = function() {
+         var dirDialog = new GetDirectoryDialog();
+         dirDialog.caption = "Choose path ...";
+         if (!dirDialog.execute()) {
+            return false;
+         }
+         tbPartialDefectsFilePath.text = dirDialog.directory;
+      }
+   }
 
 //   this.targetImageExtension="xisf";
-   var lblTargetImageExtension = new Label(this);
-   with (lblTargetImageExtension)
+   this.lblTargetImageExtension = new Label(this);
+   with (this.lblTargetImageExtension)
    {
       text = "Target image extension:";
       resize( tbw , height);
-      y = lblPartialDefectsFilePath.position.y + ls;
-      position = new Point(x, y);
       textAlignment = TextAlign_Left;
    }
-   var tbTargetImageExtension = new Edit(this);
-   with (tbTargetImageExtension)
+   this.tbTargetImageExtension = new Edit(this);
+   with (this.tbTargetImageExtension)
    {
-      position = new Point(lblTargetImageExtension.frameRect.right + 8, y);
       resize( 50, 19 );
       text = "xisf";
       onEditCompleted = function(text) {
@@ -190,224 +199,351 @@ function showDialog() {
          this.targetImageExtension = text;
       }
    }
-
 //   this.postfix="_lps";
-   var lblPostfix = new Label(this);
-   with (lblPostfix)
+   this.lblPostfix = new Label(this);
+   with (this.lblPostfix)
    {
       text = "Postfix:";
       resize( tbw , height);
-      y = lblTargetImageExtension.position.y + ls;
-      position = new Point(x, y);
       textAlignment = TextAlign_Left;
    }
-   var tbPostfix = new Edit(this);
-   with (tbPostfix)
+   this.tbPostfix = new Edit(this);
+   with (this.tbPostfix)
    {
-      position = new Point(lblPostfix.frameRect.right + 8, y);
       resize( 50, 19 );
+      width = 50;
       text = "_lps";
       onEditCompleted = function(text) {
          Console.writeln("postfix edited");
          this.postfix = text;
       }
    }
+
 //   this.layersToRemove = 9;
-   var lblLayersToRemove = new Label(this);
-   with (lblLayersToRemove)
+   this.lblLayersToRemove = new Label(this);
+   with (this.lblLayersToRemove)
    {
       text = "Layers to remove:";
       resize( tbw , height);
-      y = lblPostfix.position.y + ls+ 20;
-      position = new Point(x, y);
       textAlignment = TextAlign_Left;
    }
-   var tbLayersToRemove = new NumericControl(this);
-   with (tbLayersToRemove)
+   this.neLayersToRemove = new NumericEdit(this);
+   with (this.neLayersToRemove)
    {
-      integer = true;
-      position = new Point(lblLayersToRemove.frameRect.right + 8, y);
+      setRange(0, 15);
       resize( 50, 19 );
-      value = 9;
-      onEditCompleted = function(value) {
+      setPrecision(0);
+      setValue(9);
+      onValueUpdated = function(value) {
          Console.writeln("layers to remove edited");
          this.layersToRemove = value;
       }
    }
 
 //   this.rejectionLimit = 3;
-   var lblRejectionLimit = new Label(this);
-   with (lblRejectionLimit)
+   this.lblRejectionLimit = new Label(this);
+   with (this.lblRejectionLimit)
    {
       text = "Rejection limit:";
       resize( tbw , height);
-      y = lblLayersToRemove.position.y + ls;
-      position = new Point(x, y);
       textAlignment = TextAlign_Left;
    }
-   var tbRejectionLimit = new NumericControl(this);
-   with (tbRejectionLimit)
+   this.neRejectionLimit = new NumericEdit(this);
+   with (this.neRejectionLimit)
    {
-      integer = true;
-      position = new Point(lblRejectionLimit.frameRect.right + 8, y);
       resize( 50, 19 );
-      value = 3;
-      onEditCompleted = function(value) {
+      setRange(0, 15);
+      setPrecision(0);
+      setValue(3);
+      onValueUpdated = function(value) {
          Console.writeln("rejection limit edited");
          this.rejectionLimit = value;
       }
    }
 
 //   this.smallScaleNormalization = true;
-   var cbSmallScaleNormalization = new CheckBox(this);
-   with(cbSmallScaleNormalization) {
+   this.cbSmallScaleNormalization = new CheckBox(this);
+   with(this.cbSmallScaleNormalization) {
       enabled = true;
-      y = lblRejectionLimit.position.y + ls;
-      position = new Point(x, y);
       text = "Small scale normalization";
       checked = true;
       onCheck = function(checked) {
          Console.writeln("cbSmallScaleNormalization pressed");
+         this.smallScaleNormalization = checked;
       }
    }
 
 //   this.globalRejection = true;
-   var cbGlobalRejection = new CheckBox(this);
-   with(cbGlobalRejection) {
+   this.cbGlobalRejection = new CheckBox(this);
+   with(this.cbGlobalRejection) {
       enabled = true;
-      y = cbSmallScaleNormalization.position.y + ls + 20;
-      position = new Point(x, y);
       text = "Global rejection";
       checked = true;
       onCheck = function(checked) {
          Console.writeln("cbGlobalRejection pressed");
+         this.globalRejection = checked;
       }
    }
 
 //   this.globalRejectionLimit = 7;
-   var lblGlobalRejectionLimit = new Label(this);
-   with (lblGlobalRejectionLimit)
+   this.lblGlobalRejectionLimit = new Label(this);
+   with (this.lblGlobalRejectionLimit)
    {
       text = "Global rejection limit:";
       resize( tbw , height);
-      y = cbGlobalRejection.position.y + ls;
-      position = new Point(x, y);
       textAlignment = TextAlign_Left;
    }
-   var tbGlobalRejectionLimit = new Edit(this);
-   with (tbGlobalRejectionLimit)
+   this.neGlobalRejectionLimit = new NumericEdit(this);
+   with (this.neGlobalRejectionLimit)
    {
-      position = new Point(lblGlobalRejectionLimit.frameRect.right + 8, y);
       resize( 50, 19 );
-      text = "7";
-      onEditCompleted = function(value) {
+      setRange(0, 15);
+      setPrecision(0);
+      setValue(7);
+      onValueUpdated = function(value) {
          Console.writeln("global rejection limit edited");
          this.globalRejectionLimit = value;
       }
    }
 
 //   this.backgroundReferenceLeft=1024;
-   var lblBackgroundReference = new Label(this);
-   with (lblBackgroundReference) {
+   this.lblBackgroundReference = new Label(this);
+   with (this.lblBackgroundReference) {
       text = "Background reference:";
       resize(tbw, height);
-      y = lblGlobalRejectionLimit.position.y + ls + 20;
-      position = new Point(x, y);
       textAlignment = TextAlign_Left;
    }
 
-   var lblBackgroundReferenceLeft = new Label(this);
-   with (lblBackgroundReferenceLeft)
+   this.lblBackgroundReferenceLeft = new Label(this);
+   with (this.lblBackgroundReferenceLeft)
    {
       text = "left:";
       resize( tbsw , height);
-      y = lblBackgroundReference.position.y + ls;
-      position = new Point(x + 20, y);
       textAlignment = TextAlign_Left;
    }
-   var tbBackgroundReferenceLeft = new Edit(this);
-   with (tbBackgroundReferenceLeft)
+
+   this.neBackgroundReferenceLeft = new NumericEdit(this);
+   with (this.neBackgroundReferenceLeft)
    {
-      position = new Point(lblBackgroundReferenceLeft.frameRect.right + 8, y);
       resize( 50, 19 );
-      text = "1024";
-      onEditCompleted = function(value) {
+      setRange(0, 4096);
+      setPrecision(0);
+      setValue(1024);
+      onValueUpdated = function(value) {
          Console.writeln("background reference left edited");
          this.backgroundReferenceLeft = value;
       }
    }
 
 //   this.backgroundReferenceTop=1024;
-   var lblBackgroundReferenceTop = new Label(this);
-   with (lblBackgroundReferenceTop)
+   this.lblBackgroundReferenceTop = new Label(this);
+   with (this.lblBackgroundReferenceTop)
    {
       text = "top:";
       resize( tbsw , height);
-      y = lblBackgroundReferenceLeft.position.y + ls;
-      position = new Point(x + 20, y);
       textAlignment = TextAlign_Left;
    }
-   var tbBackgroundReferenceTop = new Edit(this);
-   with (tbBackgroundReferenceTop)
+   this.neBackgroundReferenceTop = new NumericEdit(this);
+   with (this.neBackgroundReferenceTop)
    {
-      position = new Point(lblBackgroundReferenceTop.frameRect.right + 8, y);
       resize( 50, 19 );
-      text = "1024"
-      onEditCompleted = function(value) {
+      setRange(0, 4096);
+      setPrecision(0);
+      setValue(1024);
+      onValueUpdated = function(value) {
          Console.writeln("background reference top edited");
          this.backgroundReferenceTop = value;
       }
    }
 
 //   this.backgroundReferenceWidth=400;
-   var lblBackgroundReferenceWidth = new Label(this);
-   with (lblBackgroundReferenceWidth)
+   this.lblBackgroundReferenceWidth = new Label(this);
+   with (this.lblBackgroundReferenceWidth)
    {
       text = "width:";
       resize( tbsw , height);
-      y = lblBackgroundReferenceTop.position.y + ls;
-      position = new Point(x + 20, y);
       textAlignment = TextAlign_Left;
    }
-   var tbBackgroundReferenceWidth = new Edit(this);
-   with (tbBackgroundReferenceWidth)
+   this.neBackgroundReferenceWidth = new NumericEdit(this);
+   with (this.neBackgroundReferenceWidth)
    {
-      position = new Point(lblBackgroundReferenceWidth.frameRect.right + 8, y);
       resize( 50, 19 );
-      text = "400";
-      onEditCompleted = function(value) {
+      setRange(0, 4096);
+      setPrecision(0);
+      setValue(400);
+      onValueUpdated = function(value) {
          Console.writeln("background reference width edited");
          this.backgroundReferenceWidth = value;
       }
    }
 
 //   this.backgroundReferenceHeight=400;
-   var lblBackgroundReferenceHeight = new Label(this);
-   with (lblBackgroundReferenceHeight)
+   this.lblBackgroundReferenceHeight = new Label(this);
+   with (this.lblBackgroundReferenceHeight)
    {
       text = "height:";
       resize( tbsw , height);
-      y = lblBackgroundReferenceWidth.position.y + ls;
-      position = new Point(x+20, y);
       textAlignment = TextAlign_Left;
    }
-   var tbBackgroundReferenceHeight = new Edit(this);
-   with (tbBackgroundReferenceHeight)
+   this.neBackgroundReferenceHeight = new NumericEdit(this);
+   with (this.neBackgroundReferenceHeight)
    {
-      position = new Point(lblBackgroundReferenceHeight.frameRect.right + 8, y);
       resize( 50, 19 );
-      text = "400";
-      onEditCompleted = function(value) {
+      setRange(0, 4096);
+      setPrecision(0);
+      setValue(400);
+      onValueUpdated = function(value) {
          Console.writeln("background reference height edited");
          this.backgroundReferenceHeight = value;
       }
    }
 
-   var btnExecute = new PushButton(this);
-   with(btnExecute) {
+   this.btnExecute = new PushButton(this);
+   with(this.btnExecute) {
       text = "Execute";
-      position = new Point(x + 310, tbBackgroundReferenceHeight.position.y + ls);
    }
+
+   // *** SIZERS ***
+   this.dirFrame = new HorizontalSizer();
+   with(this.dirFrame) {
+      add(this.lblDir);
+      addSpacing(10);
+      add(this.tbDir);
+      addSpacing(10);
+      add(this.btDir);
+   }
+
+   this.partialDefectsFilePathFrame = new HorizontalSizer();
+   with(this.partialDefectsFilePathFrame) {
+      add(this.lblPartialDefectsFilePath);
+      addSpacing(10);
+      add(this.tbPartialDefectsFilePath);
+      addSpacing(10);
+      add(this.btPartialDefectsFilePath);
+   }
+
+   this.targetImageExtensionFrame = new HorizontalSizer();
+   with(this.targetImageExtensionFrame) {
+      add(this.lblTargetImageExtension);
+      addSpacing(20);
+      addStretch();
+      add(this.tbTargetImageExtension);
+      addSpacing(200);
+   }
+
+   this.postfixFrame = new HorizontalSizer();
+   with(this.postfixFrame) {
+      add(this.lblPostfix);
+      addSpacing(20);
+      addStretch();
+      add(this.tbPostfix);
+      addSpacing(200);
+   }
+
+   this.layersToRemoveFrame = new HorizontalSizer();
+   with(this.layersToRemoveFrame) {
+      add(this.lblLayersToRemove);
+      addStretch();
+      add(this.neLayersToRemove);
+      addSpacing(200);
+   }
+
+   this.rejectionLimitFrame = new HorizontalSizer();
+   with(this.rejectionLimitFrame) {
+      add(this.lblRejectionLimit);
+      addStretch();
+      add(this.neRejectionLimit);
+      addSpacing(200);
+   }
+
+   this.globalRejectionLimitFrame = new HorizontalSizer();
+   with(this.globalRejectionLimitFrame) {
+      add(this.lblGlobalRejectionLimit);
+      addStretch();
+      add(this.neGlobalRejectionLimit);
+      addSpacing(200);
+   }
+
+   this.backgroundReferenceTopFrame = new HorizontalSizer();
+   with(this.backgroundReferenceTopFrame) {
+      addSpacing(15);
+      add(this.lblBackgroundReferenceTop);
+      addStretch();
+      add(this.neBackgroundReferenceTop);
+      addSpacing(200);
+   }
+
+   this.backgroundReferenceLeftFrame = new HorizontalSizer();
+   with(this.backgroundReferenceLeftFrame) {
+      addSpacing(15);
+      add(this.lblBackgroundReferenceLeft);
+      addStretch();
+      add(this.neBackgroundReferenceLeft);
+      addSpacing(200);
+   }
+
+   this.backgroundReferenceWidthFrame = new HorizontalSizer();
+   with(this.backgroundReferenceWidthFrame) {
+      addSpacing(15);
+      add(this.lblBackgroundReferenceWidth);
+      addStretch();
+      add(this.neBackgroundReferenceWidth);
+      addSpacing(200);
+   }
+
+   this.backgroundReferenceHeightFrame = new HorizontalSizer();
+   with(this.backgroundReferenceHeightFrame) {
+      addSpacing(15);
+      add(this.lblBackgroundReferenceHeight);
+      addStretch();
+      add(this.neBackgroundReferenceHeight);
+      addSpacing(200);
+   }
+
+   this.layoutFrame = new VerticalSizer();
+   with(this.layoutFrame) {
+      margin = 16;
+      add(this.lblIntro);
+      addSpacing(5);
+      add(this.cbTargetIsActiveImage);
+      addSpacing(5);
+      add(this.cbCloseFormerWorkingImages);
+      addSpacing(5);
+      add(this.dirFrame);
+      addSpacing(5);
+      add(this.cbCorrectColumns);
+      add(this.cbCorrectEntireImage);
+      addSpacing(5);
+      add(this.partialDefectsFilePathFrame);
+      addSpacing(5);
+      add(this.targetImageExtensionFrame);
+      addSpacing(5);
+      add(this.postfixFrame);
+      addSpacing(5);
+      add(this.layersToRemoveFrame);
+      addSpacing(5);
+      add(this.rejectionLimitFrame);
+      addSpacing(5);
+      add(this.cbSmallScaleNormalization);
+      addSpacing(10);
+      add(this.cbGlobalRejection);
+      addSpacing(5);
+      add(this.globalRejectionLimitFrame);
+      addSpacing(5);
+      add(this.lblBackgroundReference);
+      addSpacing(10);
+      add(this.backgroundReferenceLeftFrame);
+      add(this.backgroundReferenceTopFrame);
+      add(this.backgroundReferenceWidthFrame);
+      add(this.backgroundReferenceHeightFrame);
+      addSpacing(32);
+      add(this.btnExecute);
+   }
+
+   // *** MAIN FRAME ***
+
+   this.allFrame = new Frame(this);
+   this.allFrame.sizer = this.layoutFrame;
 }
 
 function main() {
