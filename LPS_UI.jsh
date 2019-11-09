@@ -9,7 +9,7 @@
 
 showDialog.prototype = new Dialog;
 
-function showDialog() {
+function showDialog(CONFIG) {
    this.__base__ = Dialog;
    this.__base__();
    this.height = 600;
@@ -53,7 +53,7 @@ function showDialog() {
       checked = true;
       onCheck = function(checked) {
          Console.writeln("cbCloseFormerWorkingImages pressed");
-         this.closeFormerWorkingImages = checked;
+         CONFIG.closeFormerWorkingImages = checked;
       }
    }
 
@@ -72,7 +72,7 @@ function showDialog() {
       text = "J:/itelescope/ck18w020/20191031";
       onEditCompleted = function(text) {
          Console.writeln("dir edited");
-         this.dir = text;
+         CONFIG.dir = text;
       }
    }
 
@@ -85,6 +85,7 @@ function showDialog() {
          if (!dirDialog.execute()) {
             return false;
          }
+         CONFIG.dir = dirDialog.directory;
          tbDir.text = dirDialog.directory;
       }
    }
@@ -97,7 +98,7 @@ function showDialog() {
       checked = true;
       onCheck = function(checked) {
          Console.writeln("cbCorrectColumns pressed");
-         this.correctColumns = checked;
+         CONFIG.correctColumns = checked;
       }
    }
 
@@ -109,7 +110,7 @@ function showDialog() {
       checked = true;
       onCheck = function(checked) {
          Console.writeln("cbCorrectEntireImage pressed");
-         this.correctEntireImage = checked;
+         CONFIG.correctEntireImage = checked;
       }
    }
 
@@ -128,7 +129,7 @@ function showDialog() {
       text = "J:/main/detected-columns_5-sigma.txt";
       onEditCompleted = function(text) {
          Console.writeln("partial defects file path edited");
-         this.partialDefectsFilePath = text;
+         CONFIG.partialDefectsFilePath = text;
       }
    }
    this.btPartialDefectsFilePath = new PushButton(this);
@@ -141,6 +142,7 @@ function showDialog() {
          if (!dirDialog.execute()) {
             return false;
          }
+         CONFIG.partialDefectsFilePath = dirDialog.directory;
          tbPartialDefectsFilePath.text = dirDialog.directory;
       }
    }
@@ -160,7 +162,7 @@ function showDialog() {
       text = "xisf";
       onEditCompleted = function(text) {
          Console.writeln("target image extension edited");
-         this.targetImageExtension = text;
+         CONFIG.targetImageExtension = text;
       }
    }
 //   this.postfix="_lps";
@@ -179,7 +181,7 @@ function showDialog() {
       text = "_lps";
       onEditCompleted = function(text) {
          Console.writeln("postfix edited");
-         this.postfix = text;
+         CONFIG.postfix = text;
       }
    }
 
@@ -200,7 +202,7 @@ function showDialog() {
       setValue(9);
       onValueUpdated = function(value) {
          Console.writeln("layers to remove edited");
-         this.layersToRemove = value;
+         CONFIG.layersToRemove = value;
       }
    }
 
@@ -221,7 +223,7 @@ function showDialog() {
       setValue(3);
       onValueUpdated = function(value) {
          Console.writeln("rejection limit edited");
-         this.rejectionLimit = value;
+         CONFIG.rejectionLimit = value;
       }
    }
 
@@ -233,7 +235,7 @@ function showDialog() {
       checked = true;
       onCheck = function(checked) {
          Console.writeln("cbSmallScaleNormalization pressed");
-         this.smallScaleNormalization = checked;
+         CONFIG.smallScaleNormalization = checked;
       }
    }
 
@@ -245,7 +247,7 @@ function showDialog() {
       checked = true;
       onCheck = function(checked) {
          Console.writeln("cbGlobalRejection pressed");
-         this.globalRejection = checked;
+         CONFIG.globalRejection = checked;
       }
    }
 
@@ -266,7 +268,7 @@ function showDialog() {
       setValue(7);
       onValueUpdated = function(value) {
          Console.writeln("global rejection limit edited");
-         this.globalRejectionLimit = value;
+         CONFIG.globalRejectionLimit = value;
       }
    }
 
@@ -295,7 +297,7 @@ function showDialog() {
       setValue(1024);
       onValueUpdated = function(value) {
          Console.writeln("background reference left edited");
-         this.backgroundReferenceLeft = value;
+         CONFIG.backgroundReferenceLeft = value;
       }
    }
 
@@ -316,7 +318,7 @@ function showDialog() {
       setValue(1024);
       onValueUpdated = function(value) {
          Console.writeln("background reference top edited");
-         this.backgroundReferenceTop = value;
+         CONFIG.backgroundReferenceTop = value;
       }
    }
 
@@ -337,7 +339,7 @@ function showDialog() {
       setValue(400);
       onValueUpdated = function(value) {
          Console.writeln("background reference width edited");
-         this.backgroundReferenceWidth = value;
+         CONFIG.backgroundReferenceWidth = value;
       }
    }
 
@@ -358,7 +360,7 @@ function showDialog() {
       setValue(400);
       onValueUpdated = function(value) {
          Console.writeln("background reference height edited");
-         this.backgroundReferenceHeight = value;
+         CONFIG.backgroundReferenceHeight = value;
       }
    }
 
