@@ -7,45 +7,9 @@
 #include <pjsr/StdDialogCode.jsh>
 #include <pjsr/FileMode.jsh>
 
-/*
- GroupBox
- VerticalSizer
- HorizontalSizer
- Label
- Dialog
- */
-
-/*
-   this.targetIsActiveImage = false;
-   this.closeFormerWorkingImages = true;
-   this.dir="J:/itelescope/ck18w020/20191031";
-   this.correctColumns = true;
-   this.correctEntireImage = true;
-   this.partialDefectsFilePath = "J:/main/detected-columns_5-sigma.txt";
-   this.targetImageExtension="xisf";
-   this.postfix="_lps";
-   this.layersToRemove = 9;
-   this.rejectionLimit = 3;
-   this.smallScaleNormalization = true;
-   this.globalRejection = true;
-   this.globalRejectionLimit = 7;
-   this.backgroundReferenceLeft=1024;
-   this.backgroundReferenceTop=1024;
-   this.backgroundReferenceWidth=400;
-   this.backgroundReferenceHeight=400;
-*/
-
 showDialog.prototype = new Dialog;
 
 function showDialog() {
-   var x = 8;
-   var y = 10;
-   var ls = 18;
-   var tbw = 163;
-   var tbsw = 50;
-   var tbs = 2;
-
-   Console.writeln("showDialog");
    this.__base__ = Dialog;
    this.__base__();
    this.height = 600;

@@ -3,6 +3,8 @@
 #include <pjsr/SampleType.jsh>
 #include <pjsr/UndoFlag.jsh>
 #include "PSCommonFunctions.jsh"
+#include "LPS_UI.jsh"
+
 #feature-id Utilities > LinearPatternSubtraction
 #define TITLE "LPS_by_oldwexi"
 #define VERSION "1.0.0"
@@ -235,6 +237,8 @@ is to create a preview and check the numbers in PREVIEW > Modify Preview...
 //------------------------------------------------------------------------------
 // Script configuration function.
 // PLEASE READ THE ABOVE TEXT BEFORE RUNNING THE SCRIPT.
+// Config moved to LPS_UI (Christian Liska)
+/*
 function Config()
 {
    this.targetIsActiveImage = false;
@@ -254,8 +258,8 @@ function Config()
    this.backgroundReferenceTop=1024;
    this.backgroundReferenceWidth=400;
    this.backgroundReferenceHeight=400;
-
 }
+*/
 //------------------------------------------------------------------------------
 
 //------------------------------------------------------------------------------
