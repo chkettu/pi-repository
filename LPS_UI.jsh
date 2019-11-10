@@ -89,7 +89,7 @@ function toolTips() {
                "and defining a rejection limit in sigmas with the rejectionLimit\n"+
                "property. A lower value means a more restrictive rejection.";
    this.backgroundReference =
-               "If the above normalization  or global rejection are activated,\n"
+               "If the above normalization  or global rejection are activated,\n"+
                "you need to specify a background sky reference area by setting \n"+
                "the backgroundReferenceLeft, backgroundReferenceTop, \n"+
                "backgroundReferenceWidth and backgroundReferenceHeight properties.\n"+
@@ -186,6 +186,7 @@ function showConfigDialog(CONFIG) {
          }
          CONFIG.dir = dirDialog.directory;
          vdir.text = CONFIG.dir;
+         return true;
       }
    }
 
@@ -248,6 +249,7 @@ function showConfigDialog(CONFIG) {
          }
          CONFIG.partialDefectsFilePath = dirDialog.directory;
          vPartialDefectsFilePath.text = dirDialog.directory;
+         return true;
       }
    }
 
