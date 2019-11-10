@@ -238,7 +238,7 @@ is to create a preview and check the numbers in PREVIEW > Modify Preview...
 // Script configuration function.
 // PLEASE READ THE ABOVE TEXT BEFORE RUNNING THE SCRIPT.
 // Config moved to LPS_UI (Christian Liska)
-/*
+
 function Config()
 {
    this.targetIsActiveImage = false;
@@ -259,7 +259,7 @@ function Config()
    this.backgroundReferenceWidth=400;
    this.backgroundReferenceHeight=400;
 }
-*/
+
 //------------------------------------------------------------------------------
 
 //------------------------------------------------------------------------------
