@@ -9,7 +9,98 @@
 
 showConfigDialog.prototype = new Dialog;
 
+function toolTips() {
+   this.cbTargetIsActiveImage =
+               "You can apply the script to the currently active image or to a \n"+
+               "set of images inside a directory. In the first case, the \n"+
+               "targetIsActiveImage is used. In the latter case, specify the \n"+
+               "data directory in the Input/Output directory field. inputDir \n"+
+               "and outputDir need to be the same if you specify a file name postfix.";
+   this.cbCloseFormerWorkingImages =
+               "When running the script multiple times on the active image, you\n"+
+               "can choose to automatically close the working images from the \n"+
+               "last run by checking the Close former working images field; \n"+
+               "only the target image will remain open.";;
+   this.tbDir =
+               "Directory for input files and output files. If you process an\n"+
+               "entire directory, please change the image extension as well in\n"+
+               "the \"targetImageExtension\" parameter and specify a filename \n"+
+               "postfix to avoid overwriting the target images. Please don't \n"+
+               "write the point before the file extension!\n"+
+               "Be aware that the file extension is case sensitive.";
+   this.btDir =
+               "Choose directory ...";
+   this.cbCorrectColumns =
+               "If you want to correct a column pattern, check the \"correctColumns\"\n"+
+               "field. If you want to correct a row pattern, dont check it.";
+   this.cbCorrectEntireImage =
+               "You can correct all the columns or rows in the images, or you\n"+
+               "can correct only specific ones. This is controlled by the correct\n"+
+               "entire image field. \n"+
+               "In case you dont check it, you'll need to specify a defect list\n"+
+               "file in the \"Partial defects file path\"";
+   this.tbPartialDefectsFilePath =
+               "This file should contain entire or partial rows or columns\n"+
+               "created by the script LinearDefectDetection. Only these \n"+
+               "columns/rows will be corrected if you check the field correct\n"+
+               "entire image.\n"+
+               "But, if you check correct entire image, you'll still need to \n"+
+               "specify a defect file list to correct partial columns or rows, \n"+
+               "since the script will correct only entire ones until it finds a\n"+
+               "partial one in the defect list.";
+   this.btPartialDefectsFilePath =
+               "Choose directory ...";
+   this.tbTargetImageExtension =
+               "If you process an entire directory, please change the image \n"+
+               "extension as well in the \"Target image extension\" field to \n"+
+               "\"xisf\" and specify a filename postfix \"lps\" to avoid over-\n"+
+               "writing the target images. \n"+
+               "Please don't write the point before the file extension! Be aware\n"+
+               "that the file extension is case sensitive.";
+   this.neLayersToRemove =
+               "The algorithm isolates the column or row structures from the\n"+
+               "large-scale structures of the image. This scale separation is\n"+
+               "defined by the \"layersToRemove\" field.\n"+
+               "The parameter defines the scale size at wich we separate the\n"+
+               "small and large structures, in a dyadic sequence. Thus, the \n"+
+               "default value of 8 means that we will remove the structures up\n"+
+               "to the scale of 2^(8-1) pixels (128). If you select 9 the first\n"+
+               "8 layers in the internal MulscaleMedianTransform process will be\n"+
+               "removed to the largescale structures. means only the Residuals \n"+
+               "are left.";
+   this.neRejectionLimit =
+               "Function to perform a pixel rejection in the small-scale image\n"+
+               "based on the pixel values of the target image. The rejected pixel\n"+
+               "values are set to 1 in the small-scale image; this way, they will\n"+
+               "be all rejected when performing the in-line pixel rejection in \n"+
+               "the PatternSubtraction function since the rejection high value \n"+
+               "will be always below 1";
+   this.cbGlobalRejection =
+               "Function to perform a pixel rejection in the small-scale image\n"+
+               "based on the pixel values of the target image. The rejected pixel\n"+
+               "values are set to 1 in the small-scale image; this way, they will\n"+
+               "be all rejected when performing the in-line pixel rejection in \n"+
+               "the PatternSubtraction function since the rejection high value \n"+
+               "will be always below 1";
+   this.neGlobalRejectionLimit =
+               "After the scale separation, we also reject the bright pixels in \n"+
+               "the columns or rows, mostly coming from the stars. This rejection\n"+
+               "is performed by calculating the statistics of each column or row\n"+
+               "and defining a rejection limit in sigmas with the rejectionLimit\n"+
+               "property. A lower value means a more restrictive rejection.";
+   this.backgroundReference =
+               "If the above normalization  or global rejection are activated,\n"
+               "you need to specify a background sky reference area by setting \n"+
+               "the backgroundReferenceLeft, backgroundReferenceTop, \n"+
+               "backgroundReferenceWidth and backgroundReferenceHeight properties.\n"+
+               "The easier way to set these values is to create a preview and\n"+
+               "check the numbers in PREVIEW > Modify Preview...";
+
+
+}
+
 function showConfigDialog(CONFIG) {
+   let TT = new toolTips();
    this.__base__ = Dialog;
    this.__base__();
    var tbw = 163;
@@ -41,6 +132,7 @@ function showConfigDialog(CONFIG) {
       enabled = true;
       text = "Target is active image";
       checked = CONFIG.targetIsActiveImage;
+      toolTip = TT.cbTargetIsActiveImage;
       onCheck = function(checked) {
          //Console.writeln("cbTargetIsActiveImage pressed");
          CONFIG.targetIsActiveImage = checked;
@@ -53,6 +145,7 @@ function showConfigDialog(CONFIG) {
       enabled = true;
       text = "Close former working images";
       checked = CONFIG.closeFormerWorkingImages;
+      toolTip = TT.cbCloseFormerWorkingImages;
       onCheck = function(checked) {
          //Console.writeln("cbCloseFormerWorkingImages pressed");
          CONFIG.closeFormerWorkingImages = checked;
@@ -73,6 +166,7 @@ function showConfigDialog(CONFIG) {
    {
       resize( 250, 19 );
       text = CONFIG.dir;
+      toolTip = TT.tbDir;
       onEditCompleted = function(text) {
          //Console.writeln("dir edited");
          CONFIG.dir = text;
@@ -82,6 +176,7 @@ function showConfigDialog(CONFIG) {
    this.btDir = new PushButton(this);
    with(this.btDir) {
       text = "...";
+      toolTip = TT.btDir;
       onClick = function() {
          var dirDialog = new GetDirectoryDialog();
          dirDialog.caption = "Choose path ...";
@@ -99,6 +194,7 @@ function showConfigDialog(CONFIG) {
       enabled = true;
       text = "correct columns";
       checked = CONFIG.correctColumns;
+      toolTip = TT.cbCorrectColumns;
       onCheck = function(checked) {
          // Console.writeln("cbCorrectColumns pressed");
          CONFIG.correctColumns = checked;
@@ -111,6 +207,7 @@ function showConfigDialog(CONFIG) {
       enabled = true;
       text = "correct entire image";
       checked = CONFIG.correctEntireImage;
+      toolTip = TT.cbCorrectEntireImage;
       onCheck = function(checked) {
          // Console.writeln("cbCorrectEntireImage pressed");
          CONFIG.correctEntireImage = checked;
@@ -131,6 +228,7 @@ function showConfigDialog(CONFIG) {
    {
       resize( 250, 19 );
       text = CONFIG.partialDefectsFilePath;
+      toolTip = TT.tbPartialDefectsFilePath;
       onEditCompleted = function(text) {
          // Console.writeln("partial defects file path edited");
          CONFIG.partialDefectsFilePath = text;
@@ -164,6 +262,7 @@ function showConfigDialog(CONFIG) {
    {
       resize( 50, 19 );
       text = CONFIG.targetImageExtension;
+      toolTip = TT.tbTargetImageExtension;
       onTextUpdated = function(text) {
          Console.writeln("target image extension edited: " + text);
          CONFIG.targetImageExtension = text;
@@ -183,6 +282,7 @@ function showConfigDialog(CONFIG) {
       resize( 50, 19 );
       width = 50;
       text = CONFIG.postfix;
+      toolTip = TT.tbTargetImageExtension; //same as for targetImageExtension
       onTextUpdated = function(text) {
          // Console.writeln("postfix edited");
          CONFIG.postfix = text;
@@ -204,6 +304,7 @@ function showConfigDialog(CONFIG) {
       resize( 50, 19 );
       setPrecision(0);
       setValue(CONFIG.layersToRemove);
+      toolTip = TT.neLayersToRemove;
       onValueUpdated = function(value) {
          // Console.writeln("layers to remove edited");
          CONFIG.layersToRemove = value;
@@ -225,6 +326,7 @@ function showConfigDialog(CONFIG) {
       setRange(0, 15);
       setPrecision(0);
       setValue(CONFIG.rejectionLimit);
+      toolTip = TT.neRejectionLimit;
       onValueUpdated = function(value) {
          // Console.writeln("rejection limit edited");
          CONFIG.rejectionLimit = value;
@@ -249,6 +351,7 @@ function showConfigDialog(CONFIG) {
       enabled = true;
       text = "Global rejection";
       checked = CONFIG.globalRejection;
+      toolTip = TT.cbGlobalRejection;
       onCheck = function(checked) {
          // Console.writeln("cbGlobalRejection pressed");
          CONFIG.globalRejection = checked;
@@ -270,6 +373,7 @@ function showConfigDialog(CONFIG) {
       setRange(0, 15);
       setPrecision(0);
       setValue(CONFIG.globalRejectionLimit);
+      toolTip = TT.neGlobalRejectionLimit;
       onValueUpdated = function(value) {
          // Console.writeln("global rejection limit edited");
          CONFIG.globalRejectionLimit = value;
@@ -299,6 +403,7 @@ function showConfigDialog(CONFIG) {
       setRange(0, 4096);
       setPrecision(0);
       setValue(CONFIG.backgroundReferenceLeft);
+      toolTip = TT.backgroundReference;
       onValueUpdated = function(value) {
          // Console.writeln("background reference left edited");
          CONFIG.backgroundReferenceLeft = value;
@@ -320,6 +425,7 @@ function showConfigDialog(CONFIG) {
       setRange(0, 4096);
       setPrecision(0);
       setValue(CONFIG.backgroundReferenceTop);
+      toolTip = TT.backgroundReference;
       onValueUpdated = function(value) {
          // Console.writeln("background reference top edited");
          CONFIG.backgroundReferenceTop = value;
@@ -341,6 +447,7 @@ function showConfigDialog(CONFIG) {
       setRange(0, 4096);
       setPrecision(0);
       setValue(CONFIG.backgroundReferenceWidth);
+      toolTip = TT.backgroundReference;
       onValueUpdated = function(value) {
          // Console.writeln("background reference width edited");
          CONFIG.backgroundReferenceWidth = value;
@@ -362,6 +469,7 @@ function showConfigDialog(CONFIG) {
       setRange(0, 4096);
       setPrecision(0);
       setValue(CONFIG.backgroundReferenceHeight);
+      toolTip = TT.backgroundReference;
       onValueUpdated = function(value) {
          // Console.writeln("background reference height edited");
          CONFIG.backgroundReferenceHeight = value;
