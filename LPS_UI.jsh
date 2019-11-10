@@ -167,9 +167,10 @@ function showConfigDialog(CONFIG) {
       resize( 250, 19 );
       text = CONFIG.dir;
       toolTip = TT.tbDir;
-      onEditCompleted = function(text) {
+      onTextUpdated = function(t) {
          //Console.writeln("dir edited");
-         CONFIG.dir = text;
+         CONFIG.dir = t;
+         text = t;
       }
    }
 
@@ -179,7 +180,7 @@ function showConfigDialog(CONFIG) {
       toolTip = TT.btDir;
       onClick = function() {
          var dirDialog = new GetDirectoryDialog();
-         dirDialog.caption = "Choose path ...";
+         dirDialog.caption = "Choose path ...";text
          if (!dirDialog.execute()) {
             return false;
          }
@@ -229,9 +230,10 @@ function showConfigDialog(CONFIG) {
       resize( 250, 19 );
       text = CONFIG.partialDefectsFilePath;
       toolTip = TT.tbPartialDefectsFilePath;
-      onEditCompleted = function(text) {
+      onTextUpdated = function(t) {
          // Console.writeln("partial defects file path edited");
-         CONFIG.partialDefectsFilePath = text;
+         CONFIG.partialDefectsFilePath = t;
+         text = t;
       }
    }
    this.btPartialDefectsFilePath = new PushButton(this);
