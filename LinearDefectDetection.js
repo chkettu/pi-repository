@@ -505,19 +505,21 @@ function main()
       Console.writeln("outputDir: "+CONFIG.outputDir);
       Console.writeln();
    }
-	dialog.execute();
 
-   var start = new ExecutionStart( CONFIG );
+	let retDialog = dialog.execute();
+   if (retDialog == 1) {
+      var start = new ExecutionStart( CONFIG );
 
-   var detectedLines = new LDDEngine( CONFIG.detectColumns,
-                                      CONFIG.detectPartialLines,
-                                      CONFIG.layersToRemove,
-                                      CONFIG.rejectionLimit,
-                                      CONFIG.imageShift,
-                                      CONFIG.detectionThreshold,
-                                      CONFIG.partialLineDetectionThreshold );
+      var detectedLines = new LDDEngine( CONFIG.detectColumns,
+                                         CONFIG.detectPartialLines,
+                                         CONFIG.layersToRemove,
+                                         CONFIG.rejectionLimit,
+                                         CONFIG.imageShift,
+                                         CONFIG.detectionThreshold,
+                                         CONFIG.partialLineDetectionThreshold );
 
-   Output( CONFIG.detectColumns, detectedLines, CONFIG.detectionThreshold, CONFIG.outputDir );
+      Output( CONFIG.detectColumns, detectedLines, CONFIG.detectionThreshold, CONFIG.outputDir );
+   }
 
    Console.writeln( "" );
    Console.writeln( ElapsedTime.toString( T.value ) );

@@ -34,7 +34,8 @@ function main() {
       Console.writeln("outputDir: "+cfg.outputDir);
       Console.writeln();
    }
-	dialog.execute();
+	let ret = dialog.execute();
+   Console.writeln(ret);
 }
 
 main();

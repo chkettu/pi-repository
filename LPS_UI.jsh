@@ -488,7 +488,7 @@ function showConfigDialog(CONFIG) {
    with(this.btnExecute) {
       text = "Execute";
       onClick = function(clicked) {
-         dialog.done(0);
+         dialog.done(1);
       }
    }
 
