@@ -1,5 +1,7 @@
 /*
  * LDD_UI.jsh
+ *
+ * (c) 2019 by Christian Liska.
  */
 
 #include <pjsr/DataType.jsh>
