@@ -14,31 +14,59 @@
 showConfigDialog.prototype = new Dialog;
 
 function Tooltips() {
-   //TODO add tooltips
    this.cbDetectColumns =
-               "TOOLTIP cbDetectColumns";
+               "If you want to correct a column pattern, set the \"detectColumns\" \n"+
+               "property to true. If you want to correct a row pattern, set it to false.";
    this.cbDetectPartialLines =
-               "TOOLTIP cbDetectPartialLines";
+               "The partial line defect detection algorithm works by shifting a\n"+
+                "clone of the target image and subtracting one from the other. \n"+
+                "This leaves short lines in the image that indicate the origin\n"+
+                "of the defects. A too small value will confuse these lines with\n"+
+                "residual noise in the processed image. \n"+
+                "Usually a value between 50 - 100 works fine.\n"+
+                "You can separately configure the detection threshold of the partial\n"+
+                "line defects with the partialLineDetectionThreshold property.";
+   this.neImageShift =
+               "The partial line defect detection algorithm works by shifting a \n"+
+               "clone of the target image and subtracting one from the other. This\n"+
+               "leaves short lines in the image that indicate the origin of the \n"+
+               "defects. A too small value will confuse these lines with residual \n"+
+               "noise in the processed image.\n"+
+               "Usually a value between 50 - 100 works fine.";
    this.cbCloseFormerWorkingImages =
-               "TOOLTIP cbCloseFormerWorkingImages";
+               "When running the script multiple times on the active image, you\n"+
+               +can choose to automatically close the working images from the last\n"+
+               "run by setting the closeFormerWorkingImages property to true; only\n"+
+               "the target image will remain open.";
+   this.neLayersToRemove =
+               "The algorithm isolates the small-scale structures from the large-scale\n"+
+               "structures in the pattern and target images before finding the matching\n"+
+               "scaling factor. This scale separation is enabled with the removeScales\n"+
+               "property.\n"+
+               "This scale separation is defined by the layersToRemove property. This \n"+
+               "property defines the scale size at wich we separate the small and large \n"+
+               "structures, in a dyadic sequence. Thus, a value of 8 means that we will \n"+
+               "remove the structures up to the scale of 2^(8-1) pixels (128).";
+   this.neRejectionLimit =
+               "After the scale separation, we also reject the bright pixels in\n"+
+               "the columns or rows, mostly coming from the stars. This rejection \n"+
+               "is performed by calculating the statistics of each column or row \n"+
+               "and defining a rejection limit in sigmas with the rejectionLimit \n"+
+               "property. A lower value means a more restrictive rejection.";
+   this.neDetectionThreshold =
+               "The linear defect detection is driven by the detectionThreshold property.\n"+
+               "Its value is in sigmas, so a lower value will detect more defects.";
+   this.nePartialLineDetectionThreshold =
+               "You can separately configure the detection threshold of the partial line\n"+
+               "defects with the partialLineDetectionThreshold property. \n"+
+               "Its value is also in sigmas, so a lower value will detect more defects.";
    this.tbOutputDir =
-               "TOOLTIP tbOutputDir";
+               "Directory where a CosmeticCorrection-compatible defect table could be\n"+
+               "written by the script.\n"+
+               "Be careful not to add a slash \"/\" after the directory name.\n"+
+               "So entering \"C:/LDD\" is correct and will write the defect column table\n";
    this.btOutputDir =
                "Choose directory ..";
-   this.neImageShift =
-               "TOOLTIP neImageShift";
-   this.cbCloseFormerWorkingImages =
-               "TOOLTIP cbCloseFormerWorkingImages";
-   this.neImageShift =
-               "TOOLTIP neImageShift";
-   this.neLayersToRemove =
-               "TOOLTIP neLayersToRemove";
-   this.neRejectionLimit =
-               "TOOLTIP neRejectionLimit";
-   this.neDetectionThreshold =
-               "TOOLTIP neDetectionThreshold";
-   this.nePartialLineDetectionThreshold =
-               "TOOLTIP nePartialLineDetectionThreshold";
 }
 
 function showConfigDialog(CONFIG) {
