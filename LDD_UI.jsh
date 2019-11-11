@@ -35,7 +35,7 @@ function Tooltips() {
                "Usually a value between 50 - 100 works fine.";
    this.cbCloseFormerWorkingImages =
                "When running the script multiple times on the active image, you\n"+
-               +can choose to automatically close the working images from the last\n"+
+               "can choose to automatically close the working images from the last\n"+
                "run by setting the closeFormerWorkingImages property to true; only\n"+
                "the target image will remain open.";
    this.neLayersToRemove =
