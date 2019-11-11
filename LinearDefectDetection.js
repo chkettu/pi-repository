@@ -3,9 +3,8 @@
 #feature-id Utilities > LinearDefectDetection
 
 #define TITLE "LDD_by DFG"
-
 #define VERSION "1.0.0"
-
+#define ID "LDD"
 
 #include <pjsr/ImageOp.jsh>
 #include <pjsr/SampleType.jsh>
@@ -490,6 +489,12 @@ function main()
    // Load the script configuration values on top.
    var CONFIG = new Config();
 
+   var settings = Settings.read(ID + "/parms", DataType_String);
+   if (settings != null) {
+      Console.writeln("Configuration read from settings file");
+      CONFIG = JSON.parse(settings);
+   }
+
    var dialog = new showConfigDialog(CONFIG);
    dialog.onReturn = function(ret) {
       Console.writeln("Config from dialog");
@@ -508,6 +513,8 @@ function main()
 
    let retDialog = dialog.execute();
    if (retDialog == 1) {
+      Settings.write(ID + "/parms", DataType_String, JSON.stringify(CONFIG));
+
       var start = new ExecutionStart( CONFIG );
 
       var detectedLines = new LDDEngine( CONFIG.detectColumns,
@@ -519,6 +526,8 @@ function main()
                                          CONFIG.partialLineDetectionThreshold );
 
       Output( CONFIG.detectColumns, detectedLines, CONFIG.detectionThreshold, CONFIG.outputDir );
+   } else if (retDialog == 0) {
+      Settings.remove(ID + "/parms");
    }
 
    Console.writeln( "" );

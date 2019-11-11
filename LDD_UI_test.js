@@ -4,6 +4,8 @@
 
 #include "LDD_UI.jsh"
 
+#define ID "LDD_UI"
+
 function Config()
 {
    this.detectColumns = true;
@@ -19,6 +21,14 @@ function Config()
 
 function main() {
    var cfg = new Config();
+
+   var setts = Settings.read(ID + "/parms", DataType_String );
+   if (setts != null)
+   {
+      cfg = JSON.parse(setts);
+      Console.writeln("config from settings file");
+   }
+
    var dialog = new showConfigDialog(cfg);
    dialog.onReturn = function(ret) {
       Console.writeln("Config from dialog");
@@ -34,8 +44,11 @@ function main() {
       Console.writeln("outputDir: "+cfg.outputDir);
       Console.writeln();
    }
-	let ret = dialog.execute();
-   Console.writeln(ret);
+   let ret = dialog.execute();
+   if (ret == 1) {
+      Console.writeln("store config");
+      Settings.write(ID + "/parms", DataType_String, JSON.stringify(cfg));
+   }
 }
 
 main();

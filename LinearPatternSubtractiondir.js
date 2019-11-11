@@ -8,6 +8,7 @@
 #feature-id Utilities > LinearPatternSubtraction
 #define TITLE "LPS_by_oldwexi"
 #define VERSION "1.0.0"
+#define ID "LPS"
 
 /*
 
@@ -628,6 +629,12 @@ function main()
    // Load the script configuration values on top.
    var CONFIG = new Config();
 
+   var settings = Settings.read(ID + "/parms", DataType_String);
+   if (settings != null) {
+      Console.writeln("Configuration read from settings file");
+      CONFIG = JSON.parse(settings);
+   }
+
    var dialog = new showConfigDialog(CONFIG);
    dialog.onReturn = function(ret) {
       Console.writeln("Config from dialog");
@@ -654,6 +661,8 @@ function main()
 	let ret = dialog.execute();
 
    if (ret == 1) {
+      Settings.write(ID + "/parms", DataType_String, JSON.stringify(CONFIG));
+
       ExecutionStart( CONFIG );
 
       // Process only the active image. The processed image is not saved to disk.
@@ -736,6 +745,8 @@ function main()
          }
       }
       processEvents();
+   } else if (ret == 0) {
+      Settings.remove(ID + "/parms");
    }
    Console.writeln( "" );
    Console.writeln( "Script processing time: " + ElapsedTime.toString( T.value ) );
