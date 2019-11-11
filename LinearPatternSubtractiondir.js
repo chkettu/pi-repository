@@ -651,66 +651,19 @@ function main()
       Console.writeln("backgroundReferenceHeight: "+CONFIG.backgroundReferenceHeight);
       Console.writeln();
    }
-	dialog.execute();
+	let ret = dialog.execute();
 
-   ExecutionStart( CONFIG );
+   if (ret == 1) {
+      ExecutionStart( CONFIG );
 
-   // Process only the active image. The processed image is not saved to disk.
-   if ( CONFIG.targetIsActiveImage )
-   {
-      Console.writeln( "" );
-      Console.noteln( "Processing active image" );
-      Console.flush();
-
-      let outputFilePath = null;
-      LPSEngine( outputFilePath,
-                 CONFIG.correctColumns,
-                 CONFIG.correctEntireImage,
-                 CONFIG.partialDefectsFilePath,
-                 CONFIG.layersToRemove,
-                 CONFIG.smallScaleNormalization,
-                 CONFIG.backgroundReferenceLeft,
-                 CONFIG.backgroundReferenceTop,
-                 CONFIG.backgroundReferenceWidth,
-                 CONFIG.backgroundReferenceHeight,
-                 CONFIG.rejectionLimit,
-                 CONFIG.globalRejection,
-                 CONFIG.globalRejectionLimit );
-   }
-   // Process an entire directory. Each image is saved to disk
-   // with the postfix specified in the Config function.
-   else
-   {
-      // Exit script if the output path is not specified.
-      if ( CONFIG.dir == "" )
-         throw new Error( "Output directory is not specified." );
-
-      // Create list of images to process.
-      var imageList = new Array;
-      let f = new FileFind;
-      if ( f.begin( CONFIG.dir + "/*." + CONFIG.targetImageExtension ) )
-         do
-            if ( f.isFile )
-               imageList.push( CONFIG.dir + "/" + f.name );
-      while ( f.next() );
-
-      // Exit script if there are no images to be processed.
-      if ( imageList.length == 0 )
-         throw new Error( "There are no images to be processed. Please check the input directory and file extension." );
-
-      // Process each image in the file list.
-      for ( let i = 0; i < imageList.length; ++i )
+      // Process only the active image. The processed image is not saved to disk.
+      if ( CONFIG.targetIsActiveImage )
       {
          Console.writeln( "" );
-         Console.noteln( "Processing image " + ( i + 1 ) + " of " + imageList.length );
+         Console.noteln( "Processing active image" );
          Console.flush();
 
-         // Get file name of each image.
-         let fileName = File.extractName( imageList[i] );
-         // Construct the output file path of the processed image.
-         let outputFilePath = CONFIG.dir + "/" + fileName + CONFIG.postfix + "." + CONFIG.targetImageExtension;
-
-         ImageWindow.open( imageList[i] )[0].show();
+         let outputFilePath = null;
          LPSEngine( outputFilePath,
                     CONFIG.correctColumns,
                     CONFIG.correctEntireImage,
@@ -724,17 +677,66 @@ function main()
                     CONFIG.rejectionLimit,
                     CONFIG.globalRejection,
                     CONFIG.globalRejectionLimit );
+      }
+      // Process an entire directory. Each image is saved to disk
+      // with the postfix specified in the Config function.
+      else
+      {
+         // Exit script if the output path is not specified.
+         if ( CONFIG.dir == "" )
+            throw new Error( "Output directory is not specified." );
 
-         processEvents();
-         if ( Console.abortRequested )
+         // Create list of images to process.
+         var imageList = new Array;
+         let f = new FileFind;
+         if ( f.begin( CONFIG.dir + "/*." + CONFIG.targetImageExtension ) )
+            do
+               if ( f.isFile )
+                  imageList.push( CONFIG.dir + "/" + f.name );
+         while ( f.next() );
+
+         // Exit script if there are no images to be processed.
+         if ( imageList.length == 0 )
+            throw new Error( "There are no images to be processed. Please check the input directory and file extension." );
+
+         // Process each image in the file list.
+         for ( let i = 0; i < imageList.length; ++i )
          {
             Console.writeln( "" );
-            Console.criticalln( "Script aborted" );
-            return;
+            Console.noteln( "Processing image " + ( i + 1 ) + " of " + imageList.length );
+            Console.flush();
+
+            // Get file name of each image.
+            let fileName = File.extractName( imageList[i] );
+            // Construct the output file path of the processed image.
+            let outputFilePath = CONFIG.dir + "/" + fileName + CONFIG.postfix + "." + CONFIG.targetImageExtension;
+
+            ImageWindow.open( imageList[i] )[0].show();
+            LPSEngine( outputFilePath,
+                       CONFIG.correctColumns,
+                       CONFIG.correctEntireImage,
+                       CONFIG.partialDefectsFilePath,
+                       CONFIG.layersToRemove,
+                       CONFIG.smallScaleNormalization,
+                       CONFIG.backgroundReferenceLeft,
+                       CONFIG.backgroundReferenceTop,
+                       CONFIG.backgroundReferenceWidth,
+                       CONFIG.backgroundReferenceHeight,
+                       CONFIG.rejectionLimit,
+                       CONFIG.globalRejection,
+                       CONFIG.globalRejectionLimit );
+
+            processEvents();
+            if ( Console.abortRequested )
+            {
+               Console.writeln( "" );
+               Console.criticalln( "Script aborted" );
+               return;
+            }
          }
       }
+      processEvents();
    }
-   processEvents();
    Console.writeln( "" );
    Console.writeln( "Script processing time: " + ElapsedTime.toString( T.value ) );
 }

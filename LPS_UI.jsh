@@ -1,3 +1,7 @@
+/*
+ * LPS_UI.jsh
+ */
+
 #include <pjsr/DataType.jsh>
 #include <pjsr/StdButton.jsh>
 #include <pjsr/FrameStyle.jsh>
@@ -484,7 +488,7 @@ function showConfigDialog(CONFIG) {
    with(this.btnExecute) {
       text = "Execute";
       onClick = function(clicked) {
-         dialog.done(0);
+         dialog.done(1);
       }
    }
 

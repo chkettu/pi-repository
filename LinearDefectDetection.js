@@ -11,6 +11,7 @@
 #include <pjsr/SampleType.jsh>
 #include <pjsr/UndoFlag.jsh>
 #include "PSCommonFunctions.jsh"
+#include "LDD_UI.jsh"
 
 /*
 
@@ -19,7 +20,8 @@ LinearDefectDetection Script.
 Script to detect defective columns or rows in a reference image.
 The script is configured by modifying the properties of the Config function.
 
-Copyright (C) 2019 Vicent Peris (OAUV).
+Copyright (C) 2019 Vicent Peris (OAUV),
+                   Christian Liska (UI)
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -488,17 +490,36 @@ function main()
    // Load the script configuration values on top.
    var CONFIG = new Config();
 
-   var start = new ExecutionStart( CONFIG );
+   var dialog = new showConfigDialog(CONFIG);
+   dialog.onReturn = function(ret) {
+      Console.writeln("Config from dialog");
+      Console.writeln("==================");
+      Console.writeln("detectColumns: "+CONFIG.detectColumns);
+      Console.writeln("detectPartialLines: "+CONFIG.detectPartialLines);
+      Console.writeln("imageShift: "+CONFIG.imageShift);
+      Console.writeln("closeFormerWorkingImages: "+CONFIG.closeFormerWorkingImages);
+      Console.writeln("layersToRemove: "+CONFIG.layersToRemove);
+      Console.writeln("rejectionLimit: "+CONFIG.rejectionLimit);
+      Console.writeln("detectionThreshold: "+CONFIG.detectionThreshold);
+      Console.writeln("partialLineDetectionThreshold: "+CONFIG.partialLineDetectionThreshold);
+      Console.writeln("outputDir: "+CONFIG.outputDir);
+      Console.writeln();
+   }
 
-   var detectedLines = new LDDEngine( CONFIG.detectColumns,
-                                      CONFIG.detectPartialLines,
-                                      CONFIG.layersToRemove,
-                                      CONFIG.rejectionLimit,
-                                      CONFIG.imageShift,
-                                      CONFIG.detectionThreshold,
-                                      CONFIG.partialLineDetectionThreshold );
+   let retDialog = dialog.execute();
+   if (retDialog == 1) {
+      var start = new ExecutionStart( CONFIG );
 
-   Output( CONFIG.detectColumns, detectedLines, CONFIG.detectionThreshold, CONFIG.outputDir );
+      var detectedLines = new LDDEngine( CONFIG.detectColumns,
+                                         CONFIG.detectPartialLines,
+                                         CONFIG.layersToRemove,
+                                         CONFIG.rejectionLimit,
+                                         CONFIG.imageShift,
+                                         CONFIG.detectionThreshold,
+                                         CONFIG.partialLineDetectionThreshold );
+
+      Output( CONFIG.detectColumns, detectedLines, CONFIG.detectionThreshold, CONFIG.outputDir );
+   }
 
    Console.writeln( "" );
    Console.writeln( ElapsedTime.toString( T.value ) );
