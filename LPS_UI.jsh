@@ -55,7 +55,7 @@ function toolTips() {
                "since the script will correct only entire ones until it finds a\n"+
                "partial one in the defect list.";
    this.btPartialDefectsFilePath =
-               "Choose directory ...";
+               "Choose file of detected columns ...";
    this.tbTargetImageExtension =
                "If you process an entire directory, please change the image \n"+
                "extension as well in the \"Target image extension\" field to \n"+
@@ -248,13 +248,13 @@ function showConfigDialog(CONFIG) {
       text = "...";
       maxWidth = 30;
       onClick = function() {
-         var dirDialog = new GetDirectoryDialog();
-         dirDialog.caption = "Choose path ...";
+         var dirDialog = new OpenFileDialog();
+         dirDialog.caption = "Choose file with defects ...";
          if (!dirDialog.execute()) {
             return false;
          }
-         CONFIG.partialDefectsFilePath = dirDialog.directory;
-         vPartialDefectsFilePath.text = dirDialog.directory;
+         CONFIG.partialDefectsFilePath = dirDialog.fileName;
+         vPartialDefectsFilePath.text = dirDialog.fileName;
          return true;
       }
    }
